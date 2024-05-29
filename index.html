@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>猜数字游戏</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+           background-image: url('https://img2.baidu.com/it/u=2795832828,4064581034&fm=253&fmt=auto&app=138&f=PNG?w=859&h=346'); /* 添加背景图片 */
+           background-size: cover; /* 使背景图片覆盖整个元素 */
+           background-position: center; /* 将背景图片居中显示 */
+           background-repeat: no-repeat; /* 防止背景图片重复 */
+        }
+
+        .game-container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 200px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #5cb85c;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #4cae4c;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>猜数字游戏</h1>
+        <p>我已经想好了一个1到100之间的数字。</p>
+        
+        <div class="result"></div>
+        
+        <input type="text" id="guessInput" placeholder="请输入你的猜测">
+        <button id="guessBtn">提交猜测</button>
+        
+        <div class="attempts">尝试次数: <span id="attempts">0</span></div>
+    </div>
+
+    <script>
+        (function() {
+            const guessInput = document.getElementById('guessInput');
+            const guessBtn = document.getElementById('guessBtn');
+            const resultDiv = document.querySelector('.result');
+            const attemptsDisplay = document.getElementById('attempts');
+
+            let targetNumber = Math.floor(Math.random() * 100) + 1;
+            let attempts = 0;
+
+            guessBtn.addEventListener('click', function() {
+                const userGuess = parseInt(guessInput.value);
+                attempts++;
+
+                if (!isNaN(userGuess)) {
+                    if (userGuess < 1 || userGuess > 100) {
+                        resultDiv.textContent = "请输入1到100之间的数字！";
+                    } else if (userGuess === targetNumber) {
+                        resultDiv.textContent = "恭喜你！你猜对了数字是 " + targetNumber;
+                        attemptsDisplay.textContent = attempts;
+                        guessInput.disabled = true;
+                        guessBtn.disabled = true;
+                    } else if (userGuess < targetNumber) {
+                        resultDiv.textContent = "太低了！再试试看。";
+                    } else if (userGuess > targetNumber) {
+                        resultDiv.textContent = "太高了！再试试看。";
+                    }
+                    attemptsDisplay.textContent = attempts;
+                } else {
+                    resultDiv.textContent = "请输入一个有效的数字！";
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
